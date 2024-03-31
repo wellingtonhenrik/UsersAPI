@@ -6,7 +6,7 @@ builder.Services.AddControllers();
 builder.Services.AddSqaggerDoc();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddJwtBearer();
-//builder.Services.AddCorsPolicy();
+builder.Services.AddCorsPolicy();
 var app = builder.Build();
 
 app.UseSwaggerDoc();
@@ -15,6 +15,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseCorsPolicy();
+app.UseCorsPolicy();
 app.MapControllers();
 app.Run();
