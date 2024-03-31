@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UsersAPI.Controllers;
@@ -29,6 +30,7 @@ public class AuthController : ControllerBase
     /// <summary>
     /// Reiniciar senha de acesso do usuário
     /// </summary>
+    [Authorize]
     [HttpPost]
     [Route("reset-password")]
     public IActionResult ResetPassword()
