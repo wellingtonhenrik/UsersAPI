@@ -11,10 +11,8 @@ public class UnitOfWork : IUnitOfWork
     {
         _dataContext = dataContext;
     }
-
-
     public IUsersRepository UsersRepository => new UserRepository(_dataContext);
-    
+
     public void Dispose()
     {
         _dataContext.Dispose();

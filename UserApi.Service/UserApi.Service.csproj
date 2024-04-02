@@ -14,6 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\UserApi.Domain\UserApi.Domain.csproj" />
+      <ProjectReference Include="..\UserAPI.Infra.IoC\UserAPI.Infra.IoC.csproj" />
     </ItemGroup>
 
 </Project>

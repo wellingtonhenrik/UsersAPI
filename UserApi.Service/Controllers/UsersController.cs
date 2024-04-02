@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UsersAPI.Application.Dtos.Requests;
+using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Controllers;
 [Authorize]
@@ -7,15 +9,21 @@ namespace UsersAPI.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
+    private readonly IUserAppService _userAppService;
+    public UsersController(IUserAppService userAppService)
+    {
+        _userAppService = userAppService;
+    }
+
     /// <summary>
     /// Criar conta de usuário
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost]
-    public IActionResult Add()
+    public IActionResult Add([FromBody] UserAddRequestDto dto)
     {
-        return Ok();
+        return StatusCode(200, _userAppService.Add(dto));
     }
 
     /// <summary>
@@ -23,26 +31,26 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpPut]
-    public IActionResult Update()
+    public IActionResult Update(Guid id, UserUpdateRequestDto dto)
     {
-        return Ok();
+        return StatusCode(200,_userAppService.Update(id, dto));
     }
 /// <summary>
 /// Deletar conta e usuário
 /// </summary>
 /// <returns></returns>
     [HttpDelete]
-    public IActionResult Delete()
+    public IActionResult Delete(Guid id)
     {
-        return Ok();
+        return StatusCode(200, _userAppService.Delete(id));
     }
 /// <summary>
 /// Consultar usuário
 /// </summary>
 /// <returns></returns>
     [HttpGet]
-    public IActionResult Get()
+    public IActionResult Get(Guid id)
     {
-        return Ok();
+        return StatusCode(200,_userAppService.Get(id));
     }   
 }
