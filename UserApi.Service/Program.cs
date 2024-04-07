@@ -1,3 +1,4 @@
+using UserApi.Service.Middlewares;
 using UserAPI.Infra.IoC.Extensions;
 using UsersAPI.Extensions;
 
@@ -13,7 +14,10 @@ builder.Services.AddCorsPolicy();
 
 builder.Services.AddDependencyInjection();
 builder.Services.AddAutoMapperConfig();
+builder.Services.AddDbContextConfig(builder.Configuration);
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSwaggerDoc();
 app.UseHttpsRedirection();

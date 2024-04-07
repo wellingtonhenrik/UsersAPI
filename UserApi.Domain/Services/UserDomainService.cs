@@ -1,4 +1,5 @@
-﻿using UserApi.Domain.Interfaces.Repositories;
+﻿using UserApi.Domain.Exceptions;
+using UserApi.Domain.Interfaces.Repositories;
 using UserApi.Domain.Interfaces.Services;
 using UserApi.Domain.Models;
 
@@ -18,6 +19,9 @@ public class UserDomainService : IUserDomainService
 
     public void Add(User user)
     {
+        if (Get(user.Email) != null)
+           throw new EmailJaExisteException(user.Email);
+
         _unitOfWork?.UsersRepository.Add(user);
         _unitOfWork?.SaveChanges();
     }

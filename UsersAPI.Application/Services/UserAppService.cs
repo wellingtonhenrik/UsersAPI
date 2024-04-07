@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using UserApi.Domain.Exceptions;
 using UserApi.Domain.Interfaces.Services;
 using UserApi.Domain.Models;
 using UsersAPI.Application.Dtos.Requests;
@@ -25,24 +26,32 @@ public class UserAppService : IUserAppService
 
     public UserResponseDto Add(UserAddRequestDto dto)
     {
-        var user = new User()
+        try
         {
-            id = Guid.NewGuid(),
-            Email = dto.Email,
-            DataCadastro = DateTime.UtcNow,
-            Nome = dto.Nome,
-            Password = dto.Password,
-        };
-         _userDomainService?.Add(user);
+            var user = new User()
+            {
+                id = Guid.NewGuid(),
+                Email = dto.Email,
+                DataCadastro = DateTime.UtcNow,
+                Nome = dto.Nome,
+                Password = dto.Password,
+            };
+            _userDomainService?.Add(user);
 
-         return _mapper.Map<UserResponseDto>(user);
+            return _mapper.Map<UserResponseDto>(user);
+
+        }
+        catch (EmailJaExisteException e)
+        {
+            throw new ApplicationException(e.Message);
+        }
     }
 
     public UserResponseDto Update(Guid id, UserUpdateRequestDto dto)
     {
         var userBase = _userDomainService?.Get(id);
         userBase.Nome = dto.Nome;
-        
+
         _userDomainService?.Update(userBase);
         return _mapper.Map<UserResponseDto>(userBase);
     }
