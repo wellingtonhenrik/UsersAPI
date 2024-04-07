@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsersAPI.Application.Dtos.Requests;
+using UsersAPI.Application.Dtos.Responses;
 using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Controllers;
@@ -21,9 +22,10 @@ public class UsersController : ControllerBase
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost]
+    [ProducesResponseType(typeof(UserResponseDto), 201)]
     public IActionResult Add([FromBody] UserAddRequestDto dto)
     {
-        return StatusCode(200, _userAppService.Add(dto));
+        return StatusCode(201, _userAppService.Add(dto));
     }
 
     /// <summary>

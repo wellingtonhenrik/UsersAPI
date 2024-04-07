@@ -1,16 +1,20 @@
 ﻿using UserApi.Domain.Exceptions;
+using UserApi.Domain.Interfaces.Messages;
 using UserApi.Domain.Interfaces.Repositories;
 using UserApi.Domain.Interfaces.Services;
 using UserApi.Domain.Models;
+using UserApi.Domain.ValueObjects;
 
 namespace UserApi.Domain.Services;
 
 public class UserDomainService : IUserDomainService
 {
     private readonly IUnitOfWork _unitOfWork;
-    public UserDomainService(IUnitOfWork unitOfWork)
+    private readonly IUserMessageProducer _userMessageProducer;
+    public UserDomainService(IUnitOfWork unitOfWork, IUserMessageProducer userMessageProducer)
     {
         _unitOfWork = unitOfWork;
+        _userMessageProducer = userMessageProducer;
     }
     public void Dispose()
     {
@@ -24,6 +28,15 @@ public class UserDomainService : IUserDomainService
 
         _unitOfWork?.UsersRepository.Add(user);
         _unitOfWork?.SaveChanges();
+
+        _userMessageProducer?.Send(new UserMessageVO
+        {
+            Body = @$"Olá {user.Nome}, seu cadsastro foi realizado com scesso em nosso sistema",
+            SendedAt = DateTime.UtcNow,
+            Id = user.id,
+            Subject = "Parabéns, sua conta de usuário foi criada com sucesso",
+            To = user.Email,
+        });
     }
 
     public void Update(User user)

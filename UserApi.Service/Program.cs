@@ -15,6 +15,7 @@ builder.Services.AddCorsPolicy();
 builder.Services.AddDependencyInjection();
 builder.Services.AddAutoMapperConfig();
 builder.Services.AddDbContextConfig(builder.Configuration);
+builder.Services.AddRabbitMQ(builder.Configuration);
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -29,3 +30,5 @@ app.UseCorsPolicy();
 
 app.MapControllers();
 app.Run();
+
+public partial class Program { }
