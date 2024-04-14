@@ -5,7 +5,7 @@ using UsersAPI.Application.Dtos.Responses;
 using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Controllers;
-[Authorize]
+[Authorize(Roles = "USER_ROLE")]
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
@@ -53,6 +53,8 @@ public class UsersController : ControllerBase
     [HttpGet]
     public IActionResult Get(Guid id)
     {
+        //capiturando o conteudo do token
+        var auth = User.Identity.Name;
         return StatusCode(200,_userAppService.Get(id));
     }   
 }

@@ -1,6 +1,7 @@
 ﻿using UserApi.Domain.Exceptions;
 using UserApi.Domain.Interfaces.Messages;
 using UserApi.Domain.Interfaces.Repositories;
+using UserApi.Domain.Interfaces.Security;
 using UserApi.Domain.Interfaces.Services;
 using UserApi.Domain.Models;
 using UserApi.Domain.ValueObjects;
@@ -9,12 +10,14 @@ namespace UserApi.Domain.Services;
 
 public class UserDomainService : IUserDomainService
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserMessageProducer _userMessageProducer;
-    public UserDomainService(IUnitOfWork unitOfWork, IUserMessageProducer userMessageProducer)
+    private readonly IUnitOfWork? _unitOfWork;
+    private readonly IUserMessageProducer? _userMessageProducer;
+    private readonly ITokenService? _tokenService;
+    public UserDomainService(IUnitOfWork? unitOfWork, IUserMessageProducer? userMessageProducer, ITokenService? tokenService)
     {
         _unitOfWork = unitOfWork;
         _userMessageProducer = userMessageProducer;
+        _tokenService = tokenService;
     }
     public void Dispose()
     {
@@ -64,5 +67,23 @@ public class UserDomainService : IUserDomainService
     public User? Get(string email, string password)
     {
         return _unitOfWork?.UsersRepository.Get(u => u.Email.Equals(email) && u.Password.Equals(password));
+    }
+
+    public string Authenticate(string email, string password)
+    {
+        var user = Get(email, password);
+        if (user == null)
+            throw new AcessDeniedException();
+
+        var userAuthVO = new UserAuthVO
+        {
+            Email = user.Email,
+            Nome = user.Nome,
+            id = user.id,
+            SignedAt = DateTime.UtcNow,
+            Roles = "USER_ROLE",
+        };
+        
+        return _tokenService?.CreateToken(userAuthVO);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.VisualBasic.CompilerServices;
+using UserApi.Domain.Exceptions;
 using UserApi.Domain.Interfaces.Services;
 using UserApi.Domain.Models;
 using UsersAPI.Application.Dtos.Requests;
@@ -26,15 +27,21 @@ public class AuthAppService : IAuthAppService
 
     public LoginResponseDto Login(LoginRequestDto dto)
     {
-        var user = _userDomainService?.Get(dto.Email, dto.Password);
-
-        var response = new LoginResponseDto()
+        try
         {
-            Expiration = DateTime.UtcNow,
-            AcessToken = string.Empty,
-            User = _mapper.Map<UserResponseDto>(user),
-        };
-        return response;
+            var acessToken = _userDomainService?.Authenticate(dto.Email, dto.Password);
+
+            var response = new LoginResponseDto()
+            {
+                AcessToken = acessToken
+            };
+            
+            return response;
+        }
+        catch (AcessDeniedException ex)
+        {
+            throw new ApplicationException(ex.Message);
+        }
     }
 
     public UserResponseDto ForgotPassword(ForgotPasswordRequestDto dto)

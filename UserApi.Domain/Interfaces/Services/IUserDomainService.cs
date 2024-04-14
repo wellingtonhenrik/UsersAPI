@@ -9,5 +9,6 @@ public interface IUserDomainService : IDisposable
     void Delete(User user);
     User? Get(Guid id);
     User? Get(string email);
-    User? Get(string email, string password); 
+    User? Get(string email, string password);
+    string Authenticate(string email, string password);
 }

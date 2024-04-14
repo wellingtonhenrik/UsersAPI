@@ -7,12 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\UserApi.Domain\UserApi.Domain.csproj" />
+      <ProjectReference Include="..\UserAPI.Infra.Security\UserAPI.Infra.Security.csproj" />
       <ProjectReference Include="..\UsersAPI.Application\UsersAPI.Application.csproj" />
       <ProjectReference Include="..\UsersApi.Infra.Data\UsersApi.Infra.Data.csproj" />
       <ProjectReference Include="..\UsersAPI.Infra.Messages\UsersAPI.Infra.Messages.csproj" />

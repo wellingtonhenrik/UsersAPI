@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddSqaggerDoc();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-builder.Services.AddJwtBearer();
+builder.Services.AddJwtBearer(builder.Configuration);
 
 builder.Services.AddCorsPolicy();
 

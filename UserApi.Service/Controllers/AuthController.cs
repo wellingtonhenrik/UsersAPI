@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UsersAPI.Application.Dtos.Requests;
+using UsersAPI.Application.Dtos.Responses;
+using UsersAPI.Application.Interfaces.Application;
 
 namespace UsersAPI.Controllers;
 
@@ -7,14 +10,22 @@ namespace UsersAPI.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
+    private readonly IAuthAppService _authAppService;
+
+    public AuthController(IAuthAppService authAppService)
+    {
+        _authAppService = authAppService;
+    }
+
     /// <summary>
     /// Autenticar o usuário
     /// </summary>
     [HttpPost]
     [Route("login")]
-    public IActionResult Login()
+    [ProducesResponseType(typeof(LoginResponseDto), 200)]
+    public IActionResult Login(LoginRequestDto dto)
     {
-        return Ok();
+        return StatusCode(200,_authAppService?.Login(dto)); 
     }
 
     /// <summary>
