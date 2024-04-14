@@ -1,11 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserApi.Domain.Interfaces.Messages;
 using UserApi.Domain.ValueObjects;
 using UsersAPI.Infra.Messages.Settings;

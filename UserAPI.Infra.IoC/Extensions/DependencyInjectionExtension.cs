@@ -4,7 +4,6 @@ using UserApi.Domain.Interfaces.Services;
 using UserApi.Domain.Services;
 using UsersAPI.Application.Interfaces.Application;
 using UsersAPI.Application.Services;
-using UsersApi.Infra.Data.Contexts;
 using UsersApi.Infra.Data.Repositories;
 
 namespace UserAPI.Infra.IoC.Extensions;
