@@ -34,7 +34,7 @@ public class UserDomainService : IUserDomainService
 
         _userMessageProducer?.Send(new UserMessageVO
         {
-            Body = @$"Olá {user.Nome}, seu cadsastro foi realizado com scesso em nosso sistema",
+            Body = @$"Olá {user.Nome}, seu cadastro foi realizado com sucesso em nosso sistema",
             SendedAt = DateTime.UtcNow,
             Id = user.id,
             Subject = "Parabéns, sua conta de usuário foi criada com sucesso",

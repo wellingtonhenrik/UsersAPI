@@ -31,7 +31,7 @@ public class EmailMessageService
                 var messageResquestContent = new StringContent(JsonConvert.SerializeObject(messageRequestModel),
                     Encoding.UTF8, "application/json");
 
-                await httpClient.PostAsync($"{_emailMessageSetings?.BaseUrl}/messages", messageResquestContent);
+                await httpClient.PostAsync($"{_emailMessageSetings?.BaseUrl}/email", messageResquestContent);
             }
         }
         catch (Exception ex)
@@ -55,7 +55,8 @@ public class EmailMessageService
 
             var authResponse =
                 await httpClient.PostAsync($"{_emailMessageSetings?.BaseUrl}/auth", authRequestContent);
-            return ReadResponse<AuthResponseModel>(authResponse);
+            var response = ReadResponse<AuthResponseModel>(authResponse);
+            return response;
         }
     }
 
