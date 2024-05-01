@@ -11,9 +11,12 @@ namespace UsersAPI.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserAppService _userAppService;
-    public UsersController(IUserAppService userAppService)
+    private readonly ILogger<UsersController> _logger;
+
+    public UsersController(IUserAppService userAppService, ILogger<UsersController> logger)
     {
         _userAppService = userAppService;
+        _logger = logger;
     }
 
     /// <summary>
@@ -37,24 +40,26 @@ public class UsersController : ControllerBase
     {
         return StatusCode(200,_userAppService.Update(id, dto));
     }
-/// <summary>
-/// Deletar conta e usuário
-/// </summary>
-/// <returns></returns>
+
+    /// <summary>
+    /// Deletar conta e usuário
+    /// </summary>
+    /// <returns></returns>
     [HttpDelete]
     public IActionResult Delete(Guid id)
     {
         return StatusCode(200, _userAppService.Delete(id));
     }
-/// <summary>
-/// Consultar usuário
-/// </summary>
-/// <returns></returns>
+
+    /// <summary>
+    /// Consultar usuário
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public IActionResult Get(Guid id)
     {
         //capiturando o conteudo do token
         var auth = User.Identity.Name;
-        return StatusCode(200,_userAppService.Get(id));
-    }   
+        return StatusCode(200, _userAppService.Get(id));
+    }
 }

@@ -1,3 +1,4 @@
+using Serilog.Sinks.LogBee.AspNetCore;
 using UserApi.Service.Middlewares;
 using UserAPI.Infra.IoC.Extensions;
 using UsersAPI.Extensions;
@@ -17,6 +18,8 @@ builder.Services.AddAutoMapperConfig();
 builder.Services.AddDbContextConfig(builder.Configuration);
 builder.Services.AddRabbitMQ(builder.Configuration);
 builder.Services.AddEmailMessage(builder.Configuration);
+builder.Services.AddSerilogConfig(builder.Configuration); //Serilog
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -28,8 +31,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCorsPolicy();
-
 app.MapControllers();
+
+app.UseLogBeeMiddleware(); //Serilog
 app.Run();
 
 public partial class Program { }
